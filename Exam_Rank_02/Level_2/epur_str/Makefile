@@ -1,0 +1,72 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/08/02 14:26:29 by umeneses          #+#    #+#              #
+#    Updated: 2024/08/02 14:26:30 by umeneses         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+define	examples
+./epur_str "See? It's easy to print the same thing" | cat -e
+
+
+@echo See? It\'s easy to print the same thing$$
+
+./epur_str " this        time it      will     be    more complex  . " | cat -e
+
+
+@echo this time it will be more complex .$$
+
+./epur_str "No S*** Sherlock..." "nAw S*** ShErLaWQ..." | cat -e
+
+
+@echo $$
+
+./epur_str "" | cat -e
+
+
+@echo $$
+endef
+
+ARGV			= " this        time it      will     be    more complex  . "
+SRC				= epur_str.c
+NAME			= epur_str
+OBJS			= $(SRC:%.c=%.o)
+
+RM				= rm -rf
+CC				= cc
+CFLAGS			= -Wall -Wextra -Werror -g3
+
+COMP_OBJS		= $(CC) $(CFLAGS) -c $< -o $@
+COMP_EXE		= $(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+
+all:			$(NAME)
+
+%.o:			%.c
+				$(COMP_OBJS)
+
+$(NAME):		$(OBJS)
+				$(COMP_EXE)
+
+clean:
+				$(RM) $(OBJS)
+
+fclean:			clean
+				$(RM) $(NAME)
+
+re:				fclean all
+
+one:			re
+				./$(NAME) $(ARGV)
+
+vai:			re
+				$(call examples)
+
+gdb:			re
+				gdb --tui -ex 'b main' -ex 'run' --args ./$(NAME) $(ARGV)
+
+.PHONY:			all clean fclean re one vai gdb
