@@ -6,7 +6,7 @@
 #    By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/02 15:09:44 by umeneses          #+#    #+#              #
-#    Updated: 2024/08/02 16:19:16 by umeneses         ###   ########.fr        #
+#    Updated: 2024/08/02 16:59:30 by umeneses         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ endef
 
 ARGV				= "xy-z 12345"
 SRC					= rot_13.c
-NAME				= rot_13
+NAME				= main
 OBJS				= $(SRC:%.c=%.o)
 
 RM					= rm -rf
