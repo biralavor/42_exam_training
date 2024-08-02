@@ -6,7 +6,7 @@
 #    By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/02 15:09:44 by umeneses          #+#    #+#              #
-#    Updated: 2024/08/02 15:45:17 by umeneses         ###   ########.fr        #
+#    Updated: 2024/08/02 16:19:16 by umeneses         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,19 @@ define	examples
 
 ./rot_13 "abc"
 
+@echo nop
+
 ./rot_13 "My horse is Amazing." | cat -e
+
+@echo Zl ubefr vf Nznmvat.$$
 
 ./rot_13 "AkjhZ zLKIJz , 23y " | cat -e
 
+@echo NxwuM mYXVWm , 23l $$
+
 ./rot_13 | cat -e
+
+@echo $$
 
 ./rot_13 "" | cat -e
 
