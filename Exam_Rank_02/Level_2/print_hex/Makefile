@@ -6,40 +6,48 @@
 #    By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/02 15:01:42 by umeneses          #+#    #+#              #
-#    Updated: 2024/08/02 15:01:45 by umeneses         ###   ########.fr        #
+#    Updated: 2024/08/02 15:48:08 by umeneses         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC			= print_hex.c
-NAME		= run
-OBJ_FILES	= $(SRC:%.c=%.o)
-BUILD_D		= ./build/
+ARGV				= 255
+SRC					= print_hex.c
+NAME				= run
+OBJS				= $(SRC:%.c=%.o)
 
-RM			= rm -rf
-MKDIR		= mkdir -p
+RM					= rm -rf
+CC					= cc
+CFLAGS				= -Wall -Wextra -Werror -g3
 
-CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -pedantic -g3
+COMP_OBJS			= $(CC) $(CFLAGS) -c $< -o $@
+COMP_EXE			= $(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-COMP_OBJ	= $(CC) $(CFLAGS) -c $< -o $@
-COMP_EXE	= $(CC) $(CFLAGS) $(OBJ_FILES) -o $(NAME)
+all:				$(NAME)
 
-all:		$(NAME)
+%.o:				%.c
+					@$(COMP_OBJS)
 
-(BUILD_D)%.o:	%.c
-				$(COMP_OBJ)
-
-$(NAME):		$(OBJ_FILES)
-				$(COMP_EXE)
-				./$(NAME) 5156454
+$(NAME):			$(OBJS)
+					@$(COMP_EXE)
 
 clean:
-				$(RM) $(OBJ_FILES)
-				$(RM) $(BUILD_D)
+					@$(RM) $(OBJS)
 
-fclean:			clean
-				$(RM) $(NAME)
+fclean:				clean
+					@$(RM) $(NAME)
 
-re:				fclean all
+re:					fclean all
 
-.PHONY:			all clean fclean re
+one:				re
+					./$(NAME) $(ARGV) | cat -e
+
+vai:				re
+					$(call examples)
+
+val:				re
+					valgrind --leak-check=full --track-origins=yes ./$(NAME) $(ARGV)
+
+gdb:				re
+					gdb --tui -ex 'b $(NAME)' -ex 'run $(ARGV) > /dev/null' -ex 'var' ./$(NAME)
+
+.PHONY:				all clean fclean re one vai val gdb

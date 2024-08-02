@@ -6,7 +6,7 @@
 #    By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/02 14:26:29 by umeneses          #+#    #+#              #
-#    Updated: 2024/08/02 14:26:30 by umeneses         ###   ########.fr        #
+#    Updated: 2024/08/02 15:47:02 by umeneses         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,41 +32,44 @@ define	examples
 @echo $$
 endef
 
-ARGV			= " this        time it      will     be    more complex  . "
-SRC				= epur_str.c
-NAME			= epur_str
-OBJS			= $(SRC:%.c=%.o)
+ARGV				= " this        time it      will     be    more complex  . "
+SRC					= epur_str.c
+NAME				= epur_str
+OBJS				= $(SRC:%.c=%.o)
 
-RM				= rm -rf
-CC				= cc
-CFLAGS			= -Wall -Wextra -Werror -g3
+RM					= rm -rf
+CC					= cc
+CFLAGS				= -Wall -Wextra -Werror -g3
 
-COMP_OBJS		= $(CC) $(CFLAGS) -c $< -o $@
-COMP_EXE		= $(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+COMP_OBJS			= $(CC) $(CFLAGS) -c $< -o $@
+COMP_EXE			= $(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-all:			$(NAME)
+all:				$(NAME)
 
-%.o:			%.c
-				$(COMP_OBJS)
+%.o:				%.c
+					@$(COMP_OBJS)
 
-$(NAME):		$(OBJS)
-				$(COMP_EXE)
+$(NAME):			$(OBJS)
+					@$(COMP_EXE)
 
 clean:
-				$(RM) $(OBJS)
+					@$(RM) $(OBJS)
 
-fclean:			clean
-				$(RM) $(NAME)
+fclean:				clean
+					@$(RM) $(NAME)
 
-re:				fclean all
+re:					fclean all
 
-one:			re
-				./$(NAME) $(ARGV)
+one:				re
+					./$(NAME) $(ARGV) | cat -e
 
-vai:			re
-				$(call examples)
+vai:				re
+					$(call examples)
 
-gdb:			re
-				gdb --tui -ex 'b main' -ex 'run' --args ./$(NAME) $(ARGV)
+val:				re
+					valgrind --leak-check=full --track-origins=yes ./$(NAME) $(ARGV)
 
-.PHONY:			all clean fclean re one vai gdb
+gdb:				re
+					gdb --tui -ex 'b $(NAME)' -ex 'run $(ARGV) > /dev/null' -ex 'var' ./$(NAME)
+
+.PHONY:				all clean fclean re one vai val gdb

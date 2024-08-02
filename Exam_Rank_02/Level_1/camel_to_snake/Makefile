@@ -6,36 +6,47 @@
 #    By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/02 14:26:41 by umeneses          #+#    #+#              #
-#    Updated: 2024/08/02 14:26:42 by umeneses         ###   ########.fr        #
+#    Updated: 2024/08/02 15:45:47 by umeneses         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC			= camel_to_snake.c
-NAME		= run
-OBJS		= $(SRC:%.c=%.o)
+SRC					= camel_to_snake.c
+NAME				= run
+OBJS				= $(SRC:%.c=%.o)
 
-RM			= rm -rf
+RM					= rm -rf
+CC					= cc
+CFLAGS				= -Wall -Wextra -Werror -g3
 
-CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -g3
-COMP_OBJ	= $(CC) $(CFLAGS) -c $< -o $@
-COMP_EXE	= $(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+COMP_OBJS			= $(CC) $(CFLAGS) -c $< -o $@
+COMP_EXE			= $(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-all:		$(NAME)
+all:				$(NAME)
 
-%.o:		%.c
-			$(COMP_OBJ)
+%.o:				%.c
+					@$(COMP_OBJS)
 
-$(NAME):	$(OBJS)
-			$(COMP_EXE)
-			./$(NAME) | cat -e
+$(NAME):			$(OBJS)
+					@$(COMP_EXE)
 
 clean:
-			$(RM) $(OBJS)
+					@$(RM) $(OBJS)
 
-fclean:		clean
-			$(RM) $(NAME)
+fclean:				clean
+					@$(RM) $(NAME)
 
-re:			fclean all
+re:					fclean all
 
-.PHONY:		all clean fclean re
+one:				re
+					./$(NAME) $(ARGV) | cat -e
+
+vai:				re
+					$(call examples)
+
+val:				re
+					valgrind --leak-check=full --track-origins=yes ./$(NAME) $(ARGV)
+
+gdb:				re
+					gdb --tui -ex 'b $(NAME)' -ex 'run $(ARGV) > /dev/null' -ex 'var' ./$(NAME)
+
+.PHONY:				all clean fclean re one vai val gdb

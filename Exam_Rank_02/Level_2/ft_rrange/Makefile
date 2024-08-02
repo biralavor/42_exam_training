@@ -6,44 +6,49 @@
 #    By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/02 14:37:59 by umeneses          #+#    #+#              #
-#    Updated: 2024/08/02 14:38:07 by umeneses         ###   ########.fr        #
+#    Updated: 2024/08/02 15:46:57 by umeneses         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-ARGV			= 
+ARGV				= 
 
-SRC				= main.c
-NAME			= run
-OBJS			= $(SRC:%.c=%.o)
+SRC					= main.c
+NAME				= run
+OBJS				= $(SRC:%.c=%.o)
 
-CC				= cc
-CFLAGS			= -Wall -Wextra -Werror -g3
+RM					= rm -rf
+CC					= cc
+CFLAGS				= -Wall -Wextra -Werror -g3
 
-RM				= rm -rf
+COMP_OBJS			= $(CC) $(CFLAGS) -c $< -o $@
+COMP_EXE			= $(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-COMP_OBJS		= $(CC) $(CFLAGS) -c $< -o $@
-COMP_EXE		= $(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+all:				$(NAME)
 
-all:			$(NAME)
+%.o:				%.c
+					@$(COMP_OBJS)
 
-%.o:			%.c
-				$(COMP_OBJS)
+$(NAME):			$(OBJS)
+					@$(COMP_EXE)
 
-$(NAME):		$(OBJS)
-				$(COMP_EXE)
+clean:
+					@$(RM) $(OBJS)
 
-vai:			re
-				./$(NAME) $(ARGV)
+fclean:				clean
+					@$(RM) $(NAME)
 
-gdb:			re
-				gdb -q --tui -ex 'b ft_rrange' -ex 'run' ./$(NAME)
+re:					fclean all
 
-clean:			
-				$(RM) $(OBJS)
+one:				re
+					./$(NAME) $(ARGV) | cat -e
 
-fclean:			clean
-				$(RM) $(NAME)
+vai:				re
+					$(call examples)
 
-re:				fclean all
+val:				re
+					valgrind --leak-check=full --track-origins=yes ./$(NAME) $(ARGV)
 
-.PHONY:			all clean fclean re vai gdb
+gdb:				re
+					gdb --tui -ex 'b $(NAME)' -ex 'run $(ARGV) > /dev/null' -ex 'var' ./$(NAME)
+
+.PHONY:				all clean fclean re one vai val gdb

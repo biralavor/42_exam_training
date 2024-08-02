@@ -6,7 +6,7 @@
 #    By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/02 15:09:44 by umeneses          #+#    #+#              #
-#    Updated: 2024/08/02 15:12:40 by umeneses         ###   ########.fr        #
+#    Updated: 2024/08/02 15:45:17 by umeneses         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,44 +25,44 @@ define	examples
 @echo $$
 endef
 
-ARGV			= "xy-z 12345"
-SRC				= rot_13.c
-NAME			= rot_13
-OBJS			= $(SRC:%.c=%.o)
+ARGV				= "xy-z 12345"
+SRC					= rot_13.c
+NAME				= rot_13
+OBJS				= $(SRC:%.c=%.o)
 
-RM				= rm -rf
-CC				= cc
-CFLAGS			= -Wall -Wextra -Werror -g3
+RM					= rm -rf
+CC					= cc
+CFLAGS				= -Wall -Wextra -Werror -g3
 
-COMP_OBJS		= $(CC) $(CFLAGS) -c $< -o $@
-COMP_EXE		= $(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+COMP_OBJS			= $(CC) $(CFLAGS) -c $< -o $@
+COMP_EXE			= $(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-all:			$(NAME)
+all:				$(NAME)
 
-%.o:			%.c
-				@$(COMP_OBJS)
+%.o:				%.c
+					@$(COMP_OBJS)
 
-$(NAME):		$(OBJS)
-				@$(COMP_EXE)
+$(NAME):			$(OBJS)
+					@$(COMP_EXE)
 
 clean:
-				$(RM) $(OBJS)
+					@$(RM) $(OBJS)
 
-fclean:			clean
-				$(RM) $(NAME)
+fclean:				clean
+					@$(RM) $(NAME)
 
-re:				fclean all
+re:					fclean all
 
-one:			re
-				./$(NAME) $(ARGV) | cat -e
+one:				re
+					./$(NAME) $(ARGV) | cat -e
 
-vai:			re
-				$(call examples)
+vai:				re
+					$(call examples)
 
-val:			re
-				valgrind --leak-check=full --track-origins=yes ./$(NAME) $(ARGV)
+val:				re
+					valgrind --leak-check=full --track-origins=yes ./$(NAME) $(ARGV)
 
-gdb:			re
-				gdb --tui -ex 'b main' -ex 'run $(ARGV) > /dev/null' -ex 'var' ./$(NAME)
+gdb:				re
+					gdb --tui -ex 'b $(NAME)' -ex 'run $(ARGV) > /dev/null' -ex 'var' ./$(NAME)
 
-.PHONY:			all clean fclean re one vai val gdb
+.PHONY:				all clean fclean re one vai val gdb

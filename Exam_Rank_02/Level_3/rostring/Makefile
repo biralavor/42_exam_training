@@ -6,28 +6,28 @@
 #    By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/02 15:09:44 by umeneses          #+#    #+#              #
-#    Updated: 2024/08/02 15:09:46 by umeneses         ###   ########.fr        #
+#    Updated: 2024/08/02 15:49:17 by umeneses         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 define	examples
-$>./rostring "abc   " | cat -e
+./rostring "abc   " | cat -e
 
 @echo abc$$
 
-$>./rostring "Que la      lumiere soit et la lumiere fut"
+./rostring "Que la      lumiere soit et la lumiere fut"
 
 @echo la lumiere soit et la lumiere fut Que
 
-$>./rostring "     AkjhZ zLKIJz , 23y"
+./rostring "     AkjhZ zLKIJz , 23y"
 
 @echo zLKIJz , 23y AkjhZ
 
-$>./rostring "first" "2" "11000000"
+./rostring "first" "2" "11000000"
 
 @echo first
 
-$>./rostring | cat -e
+./rostring | cat -e
 
 @echo $$
 endef

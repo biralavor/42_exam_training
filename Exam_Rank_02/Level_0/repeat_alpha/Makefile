@@ -6,7 +6,7 @@
 #    By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/02 15:03:28 by umeneses          #+#    #+#              #
-#    Updated: 2024/08/02 15:03:57 by umeneses         ###   ########.fr        #
+#    Updated: 2024/08/02 15:44:49 by umeneses         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,40 +34,44 @@ $
 
 endef
 
-ARGV			= 
-SRC				= repeat_alpha.c
-NAME			= repeat_alpha
-OBJS			= $(SRC:%.c=%.o)
+ARGV				= 
+SRC					= repeat_alpha.c
+NAME				= repeat_alpha
+OBJS				= $(SRC:%.c=%.o)
 
-CC				= cc
-CFLAGS			= -Wall -Wextra -Werror -g3
+RM					= rm -rf
+CC					= cc
+CFLAGS				= -Wall -Wextra -Werror -g3
 
-RM				= rm -rf
+COMP_OBJS			= $(CC) $(CFLAGS) -c $< -o $@
+COMP_EXE			= $(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-COMP_OBJS		= $(CC) $(CFLAGS) -c $< -o $@
-COMP_EXE		= $(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+all:				$(NAME)
 
-all:			$(NAME)
+%.o:				%.c
+					@$(COMP_OBJS)
 
-%.o:			%.c
-				$(COMP_OBJS)
+$(NAME):			$(OBJS)
+					@$(COMP_EXE)
 
-$(NAME):		$(OBJS)
-				$(COMP_EXE)
+clean:
+					@$(RM) $(OBJS)
 
+fclean:				clean
+					@$(RM) $(NAME)
 
-vai:			re
-				$(call examples)
+re:					fclean all
 
-gdb:			re
-				gdb -q --tui -ex 'b main' -ex 'run' --args ./$(NAME) ABC
+one:				re
+					./$(NAME) $(ARGV) | cat -e
 
-clean:			
-				$(RM) $(OBJS)
+vai:				re
+					$(call examples)
 
-fclean:			clean
-				$(RM) $(NAME)
+val:				re
+					valgrind --leak-check=full --track-origins=yes ./$(NAME) $(ARGV)
 
-re:				fclean all
+gdb:				re
+					gdb --tui -ex 'b $(NAME)' -ex 'run $(ARGV) > /dev/null' -ex 'var' ./$(NAME)
 
-.PHONY:			all clean fclean re
+.PHONY:				all clean fclean re one vai val gdb
