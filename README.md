@@ -5,7 +5,7 @@ This is my repo for studies about the 42 Exam Rank 02, at [42 São Paulo](https:
 
 I bravely encourage you two things:
  - Study with the repo [Pasquale Rossi](https://github.com/pasqualerossi/42-School-Exam-Rank-02)
- - Produce a short [Makefile](https://github.com/biralavor/42_exam_training/blob/main/Exam_Rank_02/Level_0/first_word/Makefile), like this one: 
+ - Produce a short [Exam Makefile, like this](https://github.com/biralavor/42_exam_training/blob/main/Exam_Rank_02/Level_0/first_word/Makefile).
 
 ### Why Build a Makefile on the Exam?
 - ✅ For a faster test experience
@@ -13,8 +13,8 @@ I bravely encourage you two things:
 - ✅ To easily have a GDB debugger
 - ✅ To easily have a VALGRIND debugger
 - ✅ And, most important: **to compare subject examples with YOUR RESULTS**
-- ❌ Yes, your first Makefile production tries will comsumes some time...
-  - But, after a few attemps, I had my Makefile exam ready after 7 minutes ✅ \o/
+- ❌ Yes, your first Makefile production tryout, will comsumes some exam time...
+  - But, after a few attemps, I had my Exam Makefile ready in less then 7 minutes ✅ \o/
   
 ![Screenshot from 2024-08-08 15-14-58](https://github.com/user-attachments/assets/a6ac444d-c551-4e3c-a3cb-d7aa2f5a52f0)
 
